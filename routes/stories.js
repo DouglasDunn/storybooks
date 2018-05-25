@@ -5,7 +5,7 @@ const Story = mongoose.model('stories');
 const User = mongoose.model('users');
 const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
-// Sories Index
+// Stories Index
 router.get('/', (req, res) => {
     Story.find({status:'public'})
       .populate('user')
@@ -22,6 +22,7 @@ router.get('/show/:id', (req, res) => {
     _id: req.params.id
   })
   .populate('user')
+  .populate('comments.commentUser')
   .then(story => {
     res.render('stories/show', {
       story: story
